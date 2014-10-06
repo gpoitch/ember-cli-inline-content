@@ -1,0 +1,26 @@
+{
+  "name": "ember-cli-inline-content",
+  "version": "0.1.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/gdub22/ember-cli-inline-content.git"
+  },
+  "keywords": [
+    "ember-addon"
+  ],
+  "author": "Garth Poitras <garth22@gmail.com> (http://garthpoitras.com/)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/gdub22/ember-cli-inline-content/issues"
+  },
+  "homepage": "https://github.com/gdub22/ember-cli-inline-content",
+  "devDependencies": {
+    "clean-css": "^2.2.16",
+    "uglify-js": "^2.4.15"
+  }
+}
