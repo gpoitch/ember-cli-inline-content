@@ -1,6 +1,6 @@
 # ember-cli-inline-content
 
-An add-on for ember-cli that allows you to render inline scripts and styles directly into your index.html file.
+An ember-cli add-on to render inline scripts and styles directly into your index.html file.
 
 ## Install
 ```
@@ -56,7 +56,28 @@ The above example will output in index.html:
 
 ## Advanced Examples
 
-Enviroment specifc content:
+#### Adding attributes to the generated tags:
+
+```js
+var app = new EmberApp({
+  ...
+  inlineContent: {
+    'olark' : { 
+      file: 'ext/olark.js',
+      attrs: { 'data-cfasync' : 'true' }
+    }
+  }
+});
+```
+
+Will output:
+```html
+<script data-cfasync="true">
+  ...ext/olark.js content here...
+</script>
+```
+
+#### Enviroment specifc content:
 
 ```js
 var app = new EmberApp({
