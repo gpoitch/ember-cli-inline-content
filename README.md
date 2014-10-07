@@ -31,9 +31,9 @@ In your index.html file, use the 'content-for' helper with a reference to the na
 {{content-for 'google-analytics'}}
 ```
 
-During the build preocess, this will render the contents of those files directly inline with `<script>` or `<style>` tags, based on the filetype.
+During the build preocess, this will render the contents of those files directly inline with `<script>` or `<style>` tags, based on the filetype. In production, the contents of the inline blocks will be minified (will obey minifyJS, minifyCSS options in Brocfile).
 
-For example:
+The above example will output in index.html:
 ```html
 <style>
   body { 
@@ -54,7 +54,21 @@ For example:
 </script>
 ```
 
-In production, the contents of the inline blocks will be minified. (Will obey minifyJS, minifyCSS options in Brocfile)
+## Advanced Examples
+
+Enviroment specifc content:
+
+```js
+var app = new EmberApp({
+  ...
+});
+
+if (app.env === 'production') {
+  app.options.inlineContent = {
+    'some-script' : 'ext/some-script.js'
+  };
+}
+```
 
 ## Why?
 - You want some code to start executing before your whole app downloads
@@ -64,5 +78,3 @@ In production, the contents of the inline blocks will be minified. (Will obey mi
 - You need to place various inline content but want to keep your index.html clean
 - You want minified inline content, but keep full source in separate files for dev and testing
 
-## TODO
-ES6 module support

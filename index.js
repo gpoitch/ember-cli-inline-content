@@ -9,20 +9,16 @@ function InlineContentRenderer(project) {
 }
 
 InlineContentRenderer.prototype.included = function(app) {
-  var options = app.options || {};
-  this.contentDict = options.inlineContent;
-  this.minifyCSS = options.minifyCSS || {};
-  this.minifyJS = options.minifyJS || {};
-  this.minifyJS.options = this.minifyJS.options || {};
-  this.minifyJS.options.fromString = true;
+  this.options = app.options || {};
 };
 
 InlineContentRenderer.prototype.contentFor = function(type, config) {
-  var pathForInlineContent = this.contentDict && this.contentDict[type];
+  var inlineContent = this.options.inlineContent;
+  var inlineContentForType = inlineContent && inlineContent[type];
   var filePath, fileContent, ext;
 
-  if(pathForInlineContent) {
-    filePath = path.join(this.project.root, pathForInlineContent);
+  if(inlineContentForType) {
+    filePath = path.join(this.project.root, inlineContentForType);
     try {
       fileContent = fs.readFileSync(filePath, 'utf8');
     } catch(e){
@@ -46,15 +42,17 @@ InlineContentRenderer.prototype.renderContentWithTag = function(content, tag) {
 };
 
 InlineContentRenderer.prototype.renderScript = function(content) {
-  if (this.minifyJS.enabled) {
-    content = UglifyJS.minify(content, this.minifyJS.options).code;
+  if (this.options.minifyJS.enabled) {
+    var uglifyOptions = this.options.minifyJS.options;
+    uglifyOptions.fromString = true;
+    content = UglifyJS.minify(content, this.options.minifyJS.options).code;
   }
   return this.renderContentWithTag(content, 'script');
 };
 
 InlineContentRenderer.prototype.renderStyle = function(content) {
-  if (this.minifyCSS.enabled) {
-    content = new CleanCSS(this.minifyCSS.options).minify(content);
+  if (this.options.minifyCSS.enabled) {
+    content = new CleanCSS(this.options.minifyCSS.options).minify(content);
   }
   return this.renderContentWithTag(content, 'style');
 };
