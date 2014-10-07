@@ -1,6 +1,6 @@
 {
   "name": "ember-cli-inline-content",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "An ember-cli add-on to render inline scripts and styles directly into your index.html file",
   "main": "index.js",
   "scripts": {
@@ -19,7 +19,7 @@
     "url": "https://github.com/gdub22/ember-cli-inline-content/issues"
   },
   "homepage": "https://github.com/gdub22/ember-cli-inline-content",
-  "devDependencies": {
+  "dependencies": {
     "clean-css": "^2.2.16",
     "uglify-js": "^2.4.15"
   }
