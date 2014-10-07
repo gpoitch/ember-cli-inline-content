@@ -78,7 +78,7 @@ Will output:
 ```
 
 #### Enviroment specifc content:
-
+In the Brocfile.js
 ```js
 var app = new EmberApp({
   ...
