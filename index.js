@@ -38,7 +38,7 @@ InlineContentRenderer.prototype.contentFor = function(type, config) {
       case '.css':
         return this.renderStyle(fileContent, contentOptions);
       default:
-        return console.log(this.name + ' error: file type not supported: ' + ext);
+        return fileContent;
     }
   }
 };

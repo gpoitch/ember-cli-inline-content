@@ -6,6 +6,7 @@ An ember-cli add-on to render inline scripts and styles directly into your index
 ```
 npm install --save-dev ember-cli-inline-content
 ```
+**Note:** *compatible with ember-cli >= v0.0.47 (introduced content-for addons)*
 
 ## Example
 
