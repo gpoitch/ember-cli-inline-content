@@ -14,7 +14,6 @@ In your app's Brocfile.js, define a manifest of files you want to inline (name :
 
 ```js
 var app = new EmberApp({
-  ...
   inlineContent: {
     'google-analytics' : 'ext/google-analytics.js',
     'fast-style' : 'ext/red.css'
@@ -32,14 +31,12 @@ In your index.html file, use the 'content-for' helper with a reference to the na
 {{content-for 'google-analytics'}}
 ```
 
-During the build preocess, this will render the contents of those files directly inline with `<script>` or `<style>` tags, based on the filetype. In production, the contents of the inline blocks will be minified (will obey minifyJS, minifyCSS options in Brocfile).
+During the build preocess, this will render the contents of those files directly inline with `<script>` or `<style>` tags, based on the filetype. In production, the contents of the inline blocks will be minified (will obey application's minifyJS & minifyCSS options in Brocfile).
 
 The above example will output in index.html:
 ```html
 <style>
-  body { 
-    color: red; 
-  }
+  body { color: red; }
 </style>
 
 <p>some other stuff</p>
@@ -61,7 +58,6 @@ The above example will output in index.html:
 
 ```js
 var app = new EmberApp({
-  ...
   inlineContent: {
     'olark' : { 
       file: 'ext/olark.js',
@@ -90,6 +86,29 @@ if (app.env === 'production') {
     'some-script' : 'ext/some-script.js'
   };
 }
+```
+
+#### Rendering any kind of file:
+You are not restricted to just js/css files.  It will inline the literal contents of any UTF-8 string file.
+
+```js
+var app = new EmberApp({
+  inlineContent: {
+    'facebook-html-block' : 'ext/facebook.html'
+  }
+});
+```
+
+#### Rendering a string of content instead of a file:
+
+```js
+var app = new EmberApp({
+  inlineContent: {
+    'env-heading' : { 
+      content: '<h1>Environment: ' + process.env.EMBER_ENV + '</h1>'
+    }
+  }
+});
 ```
 
 ## Why?

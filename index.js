@@ -19,6 +19,11 @@ InlineContentRenderer.prototype.contentFor = function(type, config) {
 
   if(inlineContentForType) {
     contentOptions = ('object' === typeof inlineContentForType) && inlineContentForType;
+    
+    if (contentOptions && contentOptions.content) {
+      return contentOptions.content;
+    }
+
     relativeFilePath = contentOptions ? contentOptions.file : inlineContentForType;
     if (!relativeFilePath) {
       return console.log(this.name + ' error: file path not defined');
