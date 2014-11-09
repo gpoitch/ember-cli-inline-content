@@ -10,7 +10,7 @@ npm install --save-dev ember-cli-inline-content
 
 ## Usage
 
-In your app's Brocfile.js, define inlineContent options on your app instance
+In your app's **Brocfile.js**, define inlineContent options on your app instance
 
 ```js
 var app = new EmberApp({
@@ -18,7 +18,7 @@ var app = new EmberApp({
     'key1' : 'filepath1.js',
     'key2' : 'filepath2.css',
     'key3' : {
-      file: 'filepath4.js',
+      file: 'filepath3.js',
       attrs: { 'data-foo' : 'bar' }
     },
     'key4' : {
@@ -28,9 +28,9 @@ var app = new EmberApp({
 });
 ```
 
-Then in your index.html file, use the `content-for` helper with a references to the keys in your options:
+Then in your **index.html** file, use the `content-for` helper with a references to the keys in your options:
 
-```html
+```hbs
 {{content-for 'key1'}}
 {{content-for 'key2'}}
 {{content-for 'key3'}}
@@ -90,7 +90,7 @@ var app = new EmberApp({
   inlineContent: {
     'olark' : { 
       file: './olark.js',
-      attrs: { 'data-cfasync' : 'true' }
+      attrs: { 'data-cfasync' : true }
     }
   }
 });
@@ -131,7 +131,7 @@ ga('create', '{{GOOGLE_ANALYTICS_ID}}', 'auto');
 ```
 
 index.html:
-```html
+```hbs
 {{content-for 'google-analytics'}}
 ```
 
