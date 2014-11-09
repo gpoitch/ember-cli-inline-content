@@ -1,7 +1,7 @@
 {
   "name": "ember-cli-inline-content",
-  "version": "0.3.0",
-  "description": "An ember-cli add-on to render inline scripts and styles directly into your index.html file",
+  "version": "0.3.1",
+  "description": "An ember-cli add-on to render inline scripts, styles, or any content directly into your index.html file",
   "main": "index.js",
   "scripts": {
     "test": "node tests/test-runner.js"
