@@ -1,81 +1,59 @@
-# ember-cli-inline-content
+# ember-cli-inline-content [![Build Status](https://travis-ci.org/gdub22/ember-cli-inline-content.svg?branch=master)](https://travis-ci.org/gdub22/ember-cli-inline-content)
 
-An ember-cli add-on to render inline scripts and styles directly into your index.html file.
+An ember-cli add-on to render inline scripts, styles, or any content directly into your index.html file.
 
 ## Install
 ```
 npm install --save-dev ember-cli-inline-content
 ```
-**Note:** *compatible with ember-cli >= v0.0.47 (introduced content-for addons)*
+*compatible with ember-cli >= v0.0.47*
 
-## Example
+## Usage
 
-In your app's Brocfile.js, define a manifest of files you want to inline (name : filepath)
-
-```js
-var app = new EmberApp({
-  inlineContent: {
-    'google-analytics' : 'ext/google-analytics.js',
-    'fast-style' : 'ext/red.css'
-  }
-});
-```
-
-In your index.html file, use the 'content-for' helper with a reference to the name in the manifest
-
-```html
-{{content-for 'fast-style'}}
-
-<p>some other stuff</p>
-
-{{content-for 'google-analytics'}}
-```
-
-During the build preocess, this will render the contents of those files directly inline with `<script>` or `<style>` tags, based on the filetype. In production, the contents of the inline blocks will be minified (will obey application's minifyJS & minifyCSS options in Brocfile).
-
-The above example will output in index.html:
-```html
-<style>
-  body { color: red; }
-</style>
-
-<p>some other stuff</p>
-
-<script>
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-  ga('create', 'UA-XXXXXXXX-X', 'auto');
-  ga('send', 'pageview');
-</script>
-```
-
-## Advanced Examples
-
-#### Adding attributes to the generated tags:
+In your app's Brocfile.js, define inlineContent options on your app instance
 
 ```js
 var app = new EmberApp({
   inlineContent: {
-    'olark' : { 
-      file: 'ext/olark.js',
-      attrs: { 'data-cfasync' : 'true' }
+    'key1' : 'filepath1.js',
+    'key2' : 'filepath2.css',
+    'key3' : {
+      file: 'filepath4.js',
+      attrs: { 'data-foo' : 'bar' }
+    },
+    'key4' : {
+      content: 'foo'
     }
   }
 });
 ```
 
-Will output:
+Then in your index.html file, use the `content-for` helper with a references to the keys in your options:
+
 ```html
-<script data-cfasync="true">
-  ...ext/olark.js content here...
-</script>
+{{content-for 'key1'}}
+{{content-for 'key2'}}
+{{content-for 'key3'}}
+{{content-for 'key4'}}
 ```
 
+During the build process, this will render the contents of those files directly inline with `<script>` or `<style>` tags, based on the filetype. In production builds, the contents of the inline blocks will be minified (will obey EmberApp's minifyJS & minifyCSS options in Brocfile.js). You are not restricted to just js/css files.  It will inline the literal contents of any UTF-8 string file.
+
+## Content options
+- filepath (String) The path to the content file
+
+or  
+
+- options (Object)
+    - file (String) The path to the content file
+    - content (String) Literal string content instead of loading a file
+    - attrs (Object) Hash of html attributes to add to the generated tags
+    - postProcess (Function) Hook to perform any transformations on the loaded file contents
+
+## Examples
+
 #### Enviroment specifc content:
-In the Brocfile.js
+Brocfile.js:
 ```js
 var app = new EmberApp({
   ...
@@ -83,24 +61,13 @@ var app = new EmberApp({
 
 if (app.env === 'production') {
   app.options.inlineContent = {
-    'some-script' : 'ext/some-script.js'
+    'some-script' : './some-script.js'
   };
 }
 ```
 
-#### Rendering any kind of file:
-You are not restricted to just js/css files.  It will inline the literal contents of any UTF-8 string file.
-
-```js
-var app = new EmberApp({
-  inlineContent: {
-    'facebook-html-block' : 'ext/facebook.html'
-  }
-});
-```
-
 #### Rendering a string of content instead of a file:
-
+Brocfile.js:
 ```js
 var app = new EmberApp({
   inlineContent: {
@@ -110,6 +77,75 @@ var app = new EmberApp({
   }
 });
 ```
+
+Output:
+```html
+<h1>Environment: development</h1>
+```
+
+#### Adding attributes:
+Brocfile.js:
+```js
+var app = new EmberApp({
+  inlineContent: {
+    'olark' : { 
+      file: './olark.js',
+      attrs: { 'data-cfasync' : 'true' }
+    }
+  }
+});
+```
+
+Output:
+```html
+<script data-cfasync="true">
+  ... ./olark.js content here ...
+</script>
+```
+
+#### Post processing:
+Brocfile.js:
+```js
+var googleAnalyticsId = process.env.EMBER_ENV === 'production' ? 'UA-XXXXXXXX-1' : 'UA-XXXXXXXX-2';
+
+var app = new EmberApp({
+  inlineContent: {
+    'google-analytics' : {
+      file: './ga.js',
+      postProcess: function(content) {
+        return content.replace(/\{\{GOOGLE_ANALYTICS_ID\}\}/g, googleAnalyticsId);
+      }
+    }
+  }
+});
+```
+
+ga.js:
+```js
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', '{{GOOGLE_ANALYTICS_ID}}', 'auto');
+```
+
+index.html:
+```html
+{{content-for 'google-analytics'}}
+```
+
+Output:
+```html
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-XXXXXXXX-1', 'auto');
+</script>
+```
+
 
 ## Why?
 - You want some code to start executing before your whole app downloads

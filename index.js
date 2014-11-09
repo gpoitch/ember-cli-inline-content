@@ -15,36 +15,45 @@ InlineContentRenderer.prototype.included = function(app) {
 InlineContentRenderer.prototype.contentFor = function(type, config) {
   var inlineContent = this.options.inlineContent;
   var inlineContentForType = inlineContent && inlineContent[type];
-  var contentOptions, relativeFilePath, filePath, fileContent, ext;
+  var contentOptions, filePath, content;
 
   if(inlineContentForType) {
     contentOptions = ('object' === typeof inlineContentForType) && inlineContentForType;
     
     if (contentOptions && contentOptions.content) {
-      return contentOptions.content;
+      content = contentOptions.content;
+    } else {
+      filePath = contentOptions && contentOptions.file || inlineContentForType;
+      content = this.readFile(filePath);
     }
 
-    relativeFilePath = contentOptions ? contentOptions.file : inlineContentForType;
-    if (!relativeFilePath) {
-      return console.log(this.name + ' error: file path not defined');
+    if ('function' === typeof contentOptions.postProcess) {
+      content = contentOptions.postProcess(content);
     }
 
-    filePath = path.join(this.project.root, relativeFilePath);
-    try {
-      fileContent = fs.readFileSync(filePath, 'utf8');
-    } catch(e){
-      return console.log(this.name + ' error: file not found: ' + filePath);
+    if (filePath) {
+      switch (path.extname(filePath)) {
+        case '.js':
+          return this.renderScript(content, contentOptions);
+        case '.css':
+          return this.renderStyle(content, contentOptions);
+      }
     }
 
-    ext = path.extname(filePath);
-    switch (ext) {
-      case '.js':
-        return this.renderScript(fileContent, contentOptions);
-      case '.css':
-        return this.renderStyle(fileContent, contentOptions);
-      default:
-        return fileContent;
-    }
+    return content;
+  }
+};
+
+InlineContentRenderer.prototype.readFile = function(filePath) {
+  if (!filePath) {
+    return console.log(this.name + ' error: file path not defined');
+  }
+
+  var fullPath = path.join(this.project.root, filePath);
+  try {
+    return fs.readFileSync(fullPath, 'utf8');
+  } catch(e){
+    return console.log(this.name + ' error: file not found: ' + fullPath);
   }
 };
 
