@@ -47,6 +47,7 @@ or
 - options (Object)
     - file (String) The path to the content file
     - content (String) Literal string content instead of loading a file
+    - enabled (Boolean) explicitly enable/disable inlining this content
     - attrs (Object) Hash of html attributes to add to the generated tags
     - postProcess (Function) Hook to perform any transformations on the loaded file contents
 
@@ -144,6 +145,19 @@ Output:
   })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
   ga('create', 'UA-XXXXXXXX-1', 'auto');
 </script>
+```
+
+#### Explicitly enable/disable:
+Brocfile.js:
+```js
+var app = new EmberApp({
+  inlineContent: {
+    'analytics' : {
+      file: './analytics.js',
+      enabled: process.env.EMBER_ENV === 'production'
+    }
+  }
+});
 ```
 
 

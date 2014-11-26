@@ -19,6 +19,10 @@ InlineContentRenderer.prototype.contentFor = function(type, config) {
 
   if(inlineContentForType) {
     contentOptions = ('object' === typeof inlineContentForType) && inlineContentForType;
+
+    if (contentOptions && contentOptions.enabled !== undefined && Boolean(contentOptions.enabled) === false) {
+      return;
+    }
     
     if (contentOptions && contentOptions.content) {
       content = contentOptions.content;

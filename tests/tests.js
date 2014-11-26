@@ -127,3 +127,24 @@ test('postProcess hook', function() {
 
   equal( content, '<script>\n'+file+'console.log(1);'+'\n</script>' );
 });
+
+test('can explictly enable/disable via option', function() {
+  var renderer = new InlineContentRenderer(defaultProject);
+  var app = Object.create(defaultApp);
+  app.options.inlineContent = {
+    dummyJs: {
+      enabled: false,
+      file: './tests/dummy.js'
+    }
+  };
+
+  renderer.included(app);
+  var content = renderer.contentFor('dummyJs');
+  equal( content, undefined );
+
+  app.options.inlineContent.dummyJs.enabled = true;
+  renderer.included(app);
+  var content = renderer.contentFor('dummyJs');
+  var file = fs.readFileSync(path.join(renderer.project.root, app.options.inlineContent.dummyJs.file), 'utf8');
+  equal( content, '<script>\n'+file+'\n</script>' );
+});
