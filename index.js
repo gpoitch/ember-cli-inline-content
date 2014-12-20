@@ -77,9 +77,8 @@ InlineContentRenderer.prototype.renderContentWithTag = function(content, tag, op
 
 InlineContentRenderer.prototype.renderScript = function(content, options) {
   if (this.options.minifyJS.enabled) {
-    var uglifyOptions = this.options.minifyJS.options;
-    uglifyOptions.fromString = true;
-    content = UglifyJS.minify(content, this.options.minifyJS.options).code;
+    var uglifyOptions = { fromString: true };
+    content = UglifyJS.minify(content, uglifyOptions).code;
   }
   return this.renderContentWithTag(content, 'script', options);
 };
