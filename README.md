@@ -42,7 +42,7 @@ During the build process, this will render the contents of those files directly 
 ## Content options
 - filepath (String) The path to the content file
 
-or  
+or
 
 - options (Object)
     - file (String) The path to the content file
@@ -72,7 +72,7 @@ Brocfile.js:
 ```js
 var app = new EmberApp({
   inlineContent: {
-    'env-heading' : { 
+    'env-heading' : {
       content: '<h1>Environment: ' + process.env.EMBER_ENV + '</h1>'
     }
   }
@@ -89,7 +89,7 @@ Brocfile.js:
 ```js
 var app = new EmberApp({
   inlineContent: {
-    'olark' : { 
+    'olark' : {
       file: './olark.js',
       attrs: { 'data-cfasync' : true }
     }
@@ -107,18 +107,24 @@ Output:
 #### Post processing:
 Brocfile.js:
 ```js
-var googleAnalyticsId = process.env.EMBER_ENV === 'production' ? 'UA-XXXXXXXX-1' : 'UA-XXXXXXXX-2';
+var env = process.env.EMBER_ENV;
+var config = require('./config/environment')(env);
 
 var app = new EmberApp({
   inlineContent: {
     'google-analytics' : {
       file: './ga.js',
       postProcess: function(content) {
-        return content.replace(/\{\{GOOGLE_ANALYTICS_ID\}\}/g, googleAnalyticsId);
+        return content.replace(/\{\{GOOGLE_ANALYTICS_ID\}\}/g, config.googleAnalyticsId);
       }
     }
   }
 });
+```
+
+environment.js
+```js
+ENV.googleAnalyticsId = environment === 'production' ? 'UA-XXXXXXXX-1' : 'UA-XXXXXXXX-2';
 ```
 
 ga.js:
