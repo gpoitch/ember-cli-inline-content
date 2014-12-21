@@ -1,7 +1,19 @@
 var fs = require('fs');
 var path = require('path');
-var UglifyJS = require('uglify-js');
-var CleanCSS = require('clean-css');
+
+function renderContentWithTag(content, tag, options) {
+  var attrs = options && options.attrs;
+  var openTag = '<' + tag;
+  var closeTag = '</' + tag + '>';
+
+  for (var attr in attrs) {
+    if (attrs.hasOwnProperty(attr)) {
+      openTag += ' ' + attr + '="' + attrs[attr] + '"';
+    }
+  }
+  openTag += '>';
+  return [openTag, content, closeTag].join('\n');
+}
 
 function InlineContentRenderer(project) {
   this.name = 'ember-cli-inline-content';
@@ -38,9 +50,9 @@ InlineContentRenderer.prototype.contentFor = function(type, config) {
     if (filePath) {
       switch (path.extname(filePath)) {
         case '.js':
-          return this.renderScript(content, contentOptions);
+          return renderContentWithTag(content, 'script', contentOptions);
         case '.css':
-          return this.renderStyle(content, contentOptions);
+          return renderContentWithTag(content, 'style', contentOptions);
       }
     }
 
@@ -59,36 +71,6 @@ InlineContentRenderer.prototype.readFile = function(filePath) {
   } catch(e){
     return console.log(this.name + ' error: file not found: ' + fullPath);
   }
-};
-
-InlineContentRenderer.prototype.renderContentWithTag = function(content, tag, options) {
-  var attrs = options && options.attrs;
-  var openTag = '<' + tag;
-  var closeTag = '</' + tag + '>';
-
-  for (var attr in attrs) {
-    if (attrs.hasOwnProperty(attr)) {
-      openTag += ' ' + attr + '="' + attrs[attr] + '"';
-    }
-  }
-  openTag += '>';
-  return [openTag, content, closeTag].join('\n');
-};
-
-InlineContentRenderer.prototype.renderScript = function(content, options) {
-  if (this.options.minifyJS.enabled) {
-    var uglifyOptions = this.options.minifyJS.options;
-    uglifyOptions.fromString = true;
-    content = UglifyJS.minify(content, this.options.minifyJS.options).code;
-  }
-  return this.renderContentWithTag(content, 'script', options);
-};
-
-InlineContentRenderer.prototype.renderStyle = function(content, options) {
-  if (this.options.minifyCSS.enabled) {
-    content = new CleanCSS(this.options.minifyCSS.options).minify(content);
-  }
-  return this.renderContentWithTag(content, 'style', options);
 };
 
 module.exports = InlineContentRenderer;

@@ -1,27 +1,24 @@
 {
   "name": "ember-cli-inline-content",
-  "version": "0.3.2",
+  "version": "0.4.0",
   "description": "An ember-cli add-on to render inline scripts, styles, or any content directly into your index.html file",
   "main": "index.js",
-  "scripts": {
-    "test": "node tests/test-runner.js"
-  },
+  "author": "Garth Poitras <garth22@gmail.com> (http://garthpoitras.com/)",
+  "license": "MIT",
+  "homepage": "https://github.com/gdub22/ember-cli-inline-content",
   "repository": {
     "type": "git",
     "url": "https://github.com/gdub22/ember-cli-inline-content.git"
   },
   "keywords": [
-    "ember-addon"
+    "ember-addon",
+    "html",
+    "css",
+    "js",
+    "inline"
   ],
-  "author": "Garth Poitras <garth22@gmail.com> (http://garthpoitras.com/)",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/gdub22/ember-cli-inline-content/issues"
-  },
-  "homepage": "https://github.com/gdub22/ember-cli-inline-content",
-  "dependencies": {
-    "clean-css": "^2.2.16",
-    "uglify-js": "^2.4.15"
+  "scripts": {
+    "test": "node tests/test-runner.js"
   },
   "devDependencies": {
     "qunit": "^0.7.5"

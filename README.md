@@ -37,7 +37,7 @@ Then in your **index.html** file, use the `content-for` helper with a references
 {{content-for 'key4'}}
 ```
 
-During the build process, this will render the contents of those files directly inline with `<script>` or `<style>` tags, based on the filetype. In production builds, the contents of the inline blocks will be minified (will obey EmberApp's minifyJS & minifyCSS options in Brocfile.js). You are not restricted to just js/css files.  It will inline the literal contents of any UTF-8 string file.
+During the build process, this will render the contents of those files directly inline with `<script>` or `<style>` tags, based on the filetype. You are not restricted to just js/css files.  It will inline the literal contents of any UTF-8 string file.  If you would like to minify the inlined-content, see [ember-cli-html-minifier](https://github.com/gdub22/ember-cli-html-minifier)
 
 ## Content options
 - filepath (String) The path to the content file
