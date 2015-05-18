@@ -53,7 +53,7 @@ or
 
 ## Examples
 
-#### Enviroment specifc content:
+#### Enviroment specific content:
 Brocfile.js:
 ```js
 var app = new EmberApp({
