@@ -3,7 +3,7 @@
   "version": "0.4.0",
   "description": "An ember-cli add-on to render inline scripts, styles, or any content directly into your index.html file",
   "main": "index.js",
-  "author": "Garth Poitras <garth22@gmail.com> (http://garthpoitras.com/)",
+  "author": "Garth Poitras <garth22@gmail.com> (https://www.garthpoitras.com)",
   "license": "MIT",
   "homepage": "https://github.com/gdub22/ember-cli-inline-content",
   "repository": {
@@ -21,6 +21,6 @@
     "test": "node tests/test-runner.js"
   },
   "devDependencies": {
-    "qunit": "^0.7.5"
+    "qunit": "^0.9.1"
   }
 }
