@@ -1,4 +1,6 @@
-# ember-cli-inline-content [![Build Status](https://travis-ci.org/gdub22/ember-cli-inline-content.svg?branch=master)](https://travis-ci.org/gdub22/ember-cli-inline-content)
+# ember-cli-inline-content 
+[![Build Status](https://travis-ci.org/gdub22/ember-cli-inline-content.svg?branch=master)](https://travis-ci.org/gdub22/ember-cli-inline-content)
+[![Ember Observer Score](https://emberobserver.com/badges/ember-cli-inline-content.svg)](https://emberobserver.com/addons/ember-cli-inline-content)
 
 An ember-cli add-on to render inline scripts, styles, or any content directly into your index.html file.
 
