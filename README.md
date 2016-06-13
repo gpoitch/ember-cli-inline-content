@@ -6,14 +6,13 @@ An ember-cli add-on to render inline scripts, styles, or any content directly in
 ```
 npm install --save-dev ember-cli-inline-content
 ```
-*compatible with ember-cli >= v0.0.47*
 
 ## Usage
 
-In your app's **Brocfile.js**, define inlineContent options on your app instance
+In your app's **ember-cli-build.js**, define inlineContent options on your app instance
 
 ```js
-var app = new EmberApp({
+var app = new EmberApp(defaults, {
   inlineContent: {
     'key1' : 'filepath1.js',
     'key2' : 'filepath2.css',
@@ -54,9 +53,9 @@ or
 ## Examples
 
 #### Enviroment specific content:
-Brocfile.js:
+ember-cli-build.js:
 ```js
-var app = new EmberApp({
+var app = new EmberApp(defaults, {
   ...
 });
 
@@ -68,9 +67,9 @@ if (app.env === 'production') {
 ```
 
 #### Rendering a string of content instead of a file:
-Brocfile.js:
+ember-cli-build.js:
 ```js
-var app = new EmberApp({
+var app = new EmberApp(defaults, {
   inlineContent: {
     'env-heading' : {
       content: '<h1>Environment: ' + process.env.EMBER_ENV + '</h1>'
@@ -85,9 +84,9 @@ Output:
 ```
 
 #### Adding attributes:
-Brocfile.js:
+ember-cli-build.js:
 ```js
-var app = new EmberApp({
+var app = new EmberApp(defaults, {
   inlineContent: {
     'olark' : {
       file: './olark.js',
@@ -105,12 +104,12 @@ Output:
 ```
 
 #### Post processing:
-Brocfile.js:
+ember-cli-build.js:
 ```js
 var env = process.env.EMBER_ENV;
 var config = require('./config/environment')(env);
 
-var app = new EmberApp({
+var app = new EmberApp(defaults, {
   inlineContent: {
     'google-analytics' : {
       file: './ga.js',
@@ -154,9 +153,9 @@ Output:
 ```
 
 #### Explicitly enable/disable:
-Brocfile.js:
+ember-cli-build.js:
 ```js
-var app = new EmberApp({
+var app = new EmberApp(defaults, {
   inlineContent: {
     'analytics' : {
       file: './analytics.js',
