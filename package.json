@@ -1,6 +1,6 @@
 {
   "name": "ember-cli-inline-content",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "description": "An ember-cli add-on to render inline scripts, styles, or any content directly into your index.html file",
   "main": "index.js",
   "author": "Garth Poitras <garth22@gmail.com> (https://www.garthpoitras.com)",

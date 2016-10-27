@@ -36,7 +36,7 @@ InlineContentRenderer.prototype.contentFor = function(type, config) {
       return;
     }
     
-    if (contentOptions && contentOptions.content) {
+    if (contentOptions && contentOptions.content !== undefined) {
       content = contentOptions.content;
     } else {
       filePath = contentOptions && contentOptions.file || inlineContentForType;

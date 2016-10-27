@@ -76,6 +76,21 @@ test('can renderer content directly', function() {
   equal( content, 'foo' );
 });
 
+test('can renderer empty string', function() {
+  var renderer = new InlineContentRenderer(defaultProject);
+  var app = Object.create(defaultApp);
+  app.options.inlineContent = {
+    dummyContent: {
+      content: ''
+    }
+  };
+
+  renderer.included(app);
+  var content = renderer.contentFor('dummyContent');
+
+  equal( content, '' );
+});
+
 test('content supersedes file', function() {
   var renderer = new InlineContentRenderer(defaultProject);
   var app = Object.create(defaultApp);
